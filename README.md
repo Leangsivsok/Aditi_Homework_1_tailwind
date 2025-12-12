@@ -70,6 +70,9 @@ Choose one of the methods below to run the project locally.
 
 <img width="1897" height="965" alt="image" src="https://github.com/user-attachments/assets/72a3ae55-6aba-4989-a3cc-fe3e193a0282" />
 
+<img width="1900" height="968" alt="image" src="https://github.com/user-attachments/assets/f442852e-75bb-4d5d-a7d4-da0eff707457" />
+
+
 <img width="1900" height="614" alt="image" src="https://github.com/user-attachments/assets/a18a714c-da4b-46ee-a827-a31aafe2d4a0" />
 
 <img width="1893" height="927" alt="image" src="https://github.com/user-attachments/assets/888679dd-972c-4057-b60e-808ec18542b4" />
