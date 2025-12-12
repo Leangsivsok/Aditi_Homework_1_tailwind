@@ -3,91 +3,219 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Telecom Landing</title>
+    <title>Cellcard</title>
     <link rel="icon" href="/favicon.ico" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
+    <style>
+      /* Make hero carousel arrows and bullets white and more visible */
+      .hero-swiper .swiper-button-next,
+      .hero-swiper .swiper-button-prev {
+        color: #fff !important;
+        width: 44px;
+        height: 44px;
+        background: rgba(0,0,0,0.18);
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      }
+      .hero-swiper .swiper-button-next::after,
+      .hero-swiper .swiper-button-prev::after {
+        color: #fff !important;
+        font-size: 18px;
+      }
+      .hero-swiper .swiper-pagination-bullet {
+        background: rgba(255,255,255,0.6) !important;
+        opacity: 1 !important;
+      }
+      .hero-swiper .swiper-pagination-bullet-active {
+        background: #fff !important;
+      }
+      /* Navbar dropdown subtle transition */
+      nav .group > div {
+        will-change: transform, opacity;
+      }
+      /* Ensure language bar is hidden on small screens */
+      @media (max-width: 767px) {
+        #langBar { display: none !important; }
+      }
+    </style>
   </head>
 
   <body class="bg-white text-gray-900">
-    <!-- Top language bar fixed at top-right, hidden on scroll -->
-    <div id="langBar" class="fixed top-0 right-0 z-50 px-4 pt-2 pb-1 flex justify-end text-xs sm:text-sm gap-3 text-white/90">
-      <button class="hover:text-white transition-colors">Khmer</button>
-      <span class="opacity-60">|</span>
-      <button class="hover:text-white transition-colors">English</button>
+    <!-- Top language bar fixed at top-right (desktop only) -->
+    <div
+      id="langBar"
+      class="hidden md:flex fixed top-4 right-4 z-50 px-3 py-1 items-center gap-3 text-xs sm:text-sm text-white bg-black/40 backdrop-blur-sm rounded-full shadow-sm"
+      role="navigation"
+      aria-label="Language switcher"
+    >
+      <button aria-label="Khmer" class="text-white/90 hover:text-white px-2 py-1 rounded-full transition-colors">Khmer</button>
+      <span class="opacity-60 text-white/80">|</span>
+      <button aria-label="English" class="text-white/90 hover:text-white px-2 py-1 rounded-full transition-colors">English</button>
     </div>
 
     <!-- Main header with rounded navbar only -->
-    <header class="sticky top-2 z-40 ">
+    <header class="sticky top-2 z-40">
       <!-- Rounded navbar -->
       <nav id="mainNav" class="max-w-6xl mx-auto px-4 pb-2">
-        <div class="bg-white rounded-full shadow-md flex items-center justify-between gap-4 px-5 sm:px-8 py-3">
+        <div
+          class="bg-white rounded-full shadow-md flex items-center justify-between gap-4 px-5 sm:px-8 py-3"
+        >
           <!-- Logo -->
           <div class="flex items-center gap-2 sm:gap-3">
-              <img src="assets/images/logo.avif" alt="Cellcard Logo" class=" h-8 sm:w-10 sm:h-10 md:w-auto"/>
-            
-            <div class="leading-tight hidden xs:block">
-              <span class="block text-lg sm:text-xl font-semibold text-orange-500">cellcard</span>
-              <span class="block text-[10px] sm:text-[11px] text-gray-500 tracking-wide">ROYAL GROUP</span>
-            </div>
+            <img
+              src="assets/images/logo.avif"
+              alt="Cellcard Logo"
+              class="h-8 sm:w-10 sm:h-10 md:w-auto"
+            />
+
+            <!-- <div class="leading-tight hidden sm:block">
+              <span
+                class="block text-lg sm:text-xl font-semibold text-orange-500"
+                >cellcard</span
+              >
+              <span
+                class="block text-[10px] sm:text-[11px] text-gray-500 tracking-wide"
+                >ROYAL GROUP</span
+              >
+            </div> -->
           </div>
 
           <!-- Desktop menu -->
           <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-900">
-            <li class="flex items-center gap-1 cursor-pointer hover:text-orange-500 transition-colors">
-              <a href="#hero" class="hover:text-orange-500">Mobile</a>
-              <i class="fa-solid fa-chevron-down text-[10px]"></i>
+            <!-- Desktop dropdown: uses group to show submenu on hover/focus -->
+            <li class="relative group">
+              <a href="#hero" class="flex items-center gap-1 hover:text-orange-500 transition-colors py-2" aria-haspopup="true">Mobile
+                <i class="fa-solid fa-chevron-down text-[10px] ml-2 transition-transform duration-150 transform group-hover:rotate-180 group-focus-within:rotate-180"></i>
+              </a>
+              <div class="absolute left-0 top-full mt-0 w-56 bg-white rounded-xl shadow-lg ring-1 ring-black/5 opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 group-hover:pointer-events-auto group-focus-within:pointer-events-auto translate-y-0 transform transition-all duration-150 z-50">
+                <nav class="py-2">
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors">Buy SIM & eSIM</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors">Plans & Bundles</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors">Roaming</a>
+                </nav>
+              </div>
             </li>
-            <li class="flex items-center gap-1 cursor-pointer hover:text-orange-500 transition-colors">
-              <a href="#why" class="hover:text-orange-500">Why VibeFlow</a>
-              <i class="fa-solid fa-chevron-down text-[10px]"></i>
+
+            <li class="relative group">
+              <a href="#why" class="flex items-center gap-1 hover:text-orange-500 transition-colors py-2" aria-haspopup="true">Why Cellcard
+                <i class="fa-solid fa-chevron-down text-[10px] ml-2 transition-transform duration-150 transform group-hover:rotate-180 group-focus-within:rotate-180"></i>
+              </a>
+              <div class="absolute left-0 top-full mt-0 w-44 bg-white rounded-xl shadow-lg ring-1 ring-black/5 opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 group-hover:pointer-events-auto group-focus-within:pointer-events-auto translate-y-0 transform transition-all duration-150 z-50">
+                <nav class="py-2">
+                  <a href="#why" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors">Network</a>
+                  <a href="#why" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors">Speed & Coverage</a>
+                </nav>
+              </div>
             </li>
-            <li class="flex items-center gap-1 cursor-pointer hover:text-orange-500 transition-colors">
-              <a href="#pricing" class="hover:text-orange-500">Pricing</a>
-              <i class="fa-solid fa-chevron-down text-[10px]"></i>
+
+            <li class="relative group">
+              <a href="#pricing" class="flex items-center gap-1 hover:text-orange-500 transition-colors py-2" aria-haspopup="true">Pricing
+                <i class="fa-solid fa-chevron-down text-[10px] ml-2 transition-transform duration-150 transform group-hover:rotate-180 group-focus-within:rotate-180"></i>
+              </a>
+              <div class="absolute left-0 top-full mt-0 w-48 bg-white rounded-xl shadow-lg ring-1 ring-black/5 opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 group-hover:pointer-events-auto group-focus-within:pointer-events-auto translate-y-0 transform transition-all duration-150 z-50">
+                <nav class="py-2">
+                  <a href="#pricing" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors">Individual</a>
+                  <a href="#pricing" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors">Family</a>
+                  <a href="#pricing" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors">Business</a>
+                </nav>
+              </div>
             </li>
-            <li class="flex items-center gap-1 cursor-pointer hover:text-orange-500 transition-colors">
-              <a href="#testimonials" class="hover:text-orange-500">Testimonials</a>
-              <i class="fa-solid fa-chevron-down text-[10px]"></i>
+
+            <li class="relative group">
+              <a href="#testimonials" class="flex items-center gap-1 hover:text-orange-500 transition-colors py-2" aria-haspopup="true">Testimonials
+                <i class="fa-solid fa-chevron-down text-[10px] ml-2 transition-transform duration-150 transform group-hover:rotate-180 group-focus-within:rotate-180"></i>
+              </a>
+              <div class="absolute left-0 top-full mt-0 w-44 bg-white rounded-xl shadow-lg ring-1 ring-black/5 opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 group-hover:pointer-events-auto group-focus-within:pointer-events-auto translate-y-0 transform transition-all duration-150 z-50">
+                <nav class="py-2">
+                  <a href="#testimonials" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors">Customer Stories</a>
+                  <a href="#testimonials" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors">Media</a>
+                </nav>
+              </div>
             </li>
           </ul>
 
           <!-- Get SIM button (always visible on md+, right-aligned like reference) -->
           <div class="flex items-center gap-3">
-            <a href="#pricing" class="hidden md:inline-flex items-center justify-center rounded-full bg-orange-500 hover:bg-orange-600 active:scale-[.98] text-white text-sm font-semibold px-5 py-2 shadow-sm transition-transform">
+            <a
+              href="#pricing"
+              class="hidden md:inline-flex items-center justify-center rounded-full bg-orange-500 hover:bg-orange-600 active:scale-[.98] text-white text-sm font-semibold px-5 py-2 shadow-sm transition-transform"
+            >
               Get SIM
             </a>
 
             <!-- Mobile menu button -->
-            <button id="navToggle" class="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-orange-200 text-orange-500 hover:bg-orange-50 transition-colors">
+            <button
+              id="navToggle"
+              class="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-orange-200 text-orange-500 hover:bg-orange-50 transition-colors"
+            >
               <i class="fa-solid fa-bars"></i>
             </button>
           </div>
         </div>
 
-        <!-- Mobile dropdown menu -->
+        <!-- Mobile dropdown menu with collapsible submenus -->
         <div id="mobileMenu" class="md:hidden mt-2 px-2 hidden">
           <div class="bg-[#fff9f1] rounded-3xl shadow-md py-3 px-4 space-y-2 text-sm font-medium text-gray-900">
-            <a href="#hero" class="w-full flex justify-between items-center py-1.5 hover:text-orange-500">
-              <span>Mobile</span>
-              <i class="fa-solid fa-chevron-down text-[10px]"></i>
-            </a>
-            <a href="#why" class="w-full flex justify-between items-center py-1.5 hover:text-orange-500">
-              <span>Why VibeFlow</span>
-              <i class="fa-solid fa-chevron-down text-[10px]"></i>
-            </a>
-            <a href="#pricing" class="w-full flex justify-between items-center py-1.5 hover:text-orange-500">
-              <span>Pricing</span>
-              <i class="fa-solid fa-chevron-down text-[10px]"></i>
-            </a>
-            <a href="#testimonials" class="w-full flex justify-between items-center py-1.5 hover:text-orange-500">
-              <span>Testimonials</span>
-              <i class="fa-solid fa-chevron-down text-[10px]"></i>
-            </a>
-            <a href="#pricing" class="mt-2 w-full inline-flex items-center justify-center rounded-full bg-orange-500 hover:bg-orange-600 active:scale-[.98] text-white text-sm font-semibold px-5 py-2 shadow-sm transition-transform">
-              Get SIM
-            </a>
+            <!-- Mobile (has submenu) -->
+            <div class="">
+              <button type="button" class="w-full flex justify-between items-center py-2 mobile-submenu-toggle" aria-expanded="false">
+                <span>Mobile</span>
+                <i class="fa-solid fa-chevron-down text-[12px] transition-transform duration-150 transform"></i>
+              </button>
+              <div class="mobile-submenu hidden pl-4 mt-1 space-y-1">
+                <a href="#hero" class="block px-2 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded">Buy SIM & eSIM</a>
+                <a href="#services" class="block px-2 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded">Top Up</a>
+                <a href="#services" class="block px-2 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded">Promotions</a>
+              </div>
+            </div>
+
+            <!-- Why VibeFlow (has submenu) -->
+            <div>
+              <button type="button" class="w-full flex justify-between items-center py-2 mobile-submenu-toggle" aria-expanded="false">
+                <span>Why VibeFlow</span>
+                <i class="fa-solid fa-chevron-down text-[12px] transition-transform duration-150 transform"></i>
+              </button>
+              <div class="mobile-submenu hidden pl-4 mt-1 space-y-1">
+                <a href="#why" class="block px-2 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded">Network</a>
+                <a href="#why" class="block px-2 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded">Coverage</a>
+              </div>
+            </div>
+
+            <!-- Pricing (has submenu) -->
+            <div>
+              <button type="button" class="w-full flex justify-between items-center py-2 mobile-submenu-toggle" aria-expanded="false">
+                <span>Pricing</span>
+                <i class="fa-solid fa-chevron-down text-[12px] transition-transform duration-150 transform"></i>
+              </button>
+              <div class="mobile-submenu hidden pl-4 mt-1 space-y-1">
+                <a href="#pricing" class="block px-2 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded">Individual</a>
+                <a href="#pricing" class="block px-2 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-500 rounded">Family</a>
+              </div>
+            </div>
+
+            <!-- Testimonials (no submenu, direct link) -->
+            <div>
+              <a href="#testimonials" class="w-full block py-2">Testimonials</a>
+            </div>
+
+            <a href="#pricing" class="mt-2 w-full inline-flex items-center justify-center rounded-full bg-orange-500 hover:bg-orange-600 active:scale-[.98] text-white text-sm font-semibold px-5 py-2 shadow-sm transition-transform">Get SIM</a>
+
+            <!-- Mobile language switcher (shows inside hamburger) -->
+            <div class="mt-3 pt-3 border-t border-orange-200 flex gap-2">
+              <button aria-label="Khmer" class="flex-1 rounded-full py-2 bg-white text-orange-600 hover:bg-orange-50 text-sm font-semibold">Khmer</button>
+              <button aria-label="English" class="flex-1 rounded-full py-2 bg-white text-gray-700 hover:bg-gray-50 text-sm font-semibold">English</button>
+            </div>
           </div>
         </div>
       </nav>
@@ -96,11 +224,18 @@
     <main>
       <!-- Swiper Carousel -->
       <section id="hero" class="relative">
-          <div class="swiper hero-swiper h-72 md:h-96 lg:h-[560px]">
+        <div class="swiper hero-swiper h-72 md:h-96 lg:h-[560px]">
           <div class="swiper-wrapper">
             <!-- Slide 1 -->
-            <div class="swiper-slide h-full relative text-white overflow-hidden flex items-center justify-center">
-              <img class="absolute top-0 left-0 w-full h-full object-cover object-center z-0" src="assets/images/slide1.avif" alt="Slide 1" loading="lazy" />
+            <div
+              class="swiper-slide h-full relative text-white overflow-hidden flex items-center justify-center"
+            >
+              <img
+                class="absolute top-0 left-0 w-full h-full object-cover object-center z-0"
+                src="assets/images/slide1.avif"
+                alt="Slide 1"
+                loading="lazy"
+              />
               <div class="absolute inset-0 bg-black/40 z-10"></div>
               <!-- <div class="relative z-20 max-w-3xl text-center px-4 md:px-8">
                 <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
@@ -119,8 +254,15 @@
             </div>
 
             <!-- Slide 2 -->
-            <div class="swiper-slide h-full relative text-white overflow-hidden flex items-center justify-center">
-              <img class="absolute top-0 left-0 w-full h-full object-cover object-center z-0" src="assets/images/slide2.avif" alt="Slide 2" loading="lazy" />
+            <div
+              class="swiper-slide h-full relative text-white overflow-hidden flex items-center justify-center"
+            >
+              <img
+                class="absolute top-0 left-0 w-full h-full object-cover object-center z-0"
+                src="assets/images/slide2.avif"
+                alt="Slide 2"
+                loading="lazy"
+              />
               <div class="absolute inset-0 bg-black/40 z-10"></div>
               <!-- <div class="relative z-20 max-w-3xl text-center px-4 md:px-8">
                 <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
@@ -133,8 +275,15 @@
             </div>
 
             <!-- Slide 3 -->
-            <div class="swiper-slide h-full relative text-white overflow-hidden flex items-center justify-center">
-              <img class="absolute top-0 left-0 w-full h-full object-cover object-center z-0" src="assets/images/slide3.avif" alt="Slide 3" loading="lazy" />
+            <div
+              class="swiper-slide h-full relative text-white overflow-hidden flex items-center justify-center"
+            >
+              <img
+                class="absolute top-0 left-0 w-full h-full object-cover object-center z-0"
+                src="assets/images/slide3.avif"
+                alt="Slide 3"
+                loading="lazy"
+              />
               <div class="absolute inset-0 bg-black/40 z-10"></div>
               <!-- <div class="relative z-20 max-w-3xl text-center px-4 md:px-8">
                 <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
@@ -148,22 +297,34 @@
           </div>
 
           <!-- navigation buttons -->
-            <!-- navigation buttons (scoped to hero-swiper) -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-            <!-- pagination (scoped) -->
-            <div class="swiper-pagination"></div>
+          <!-- navigation buttons (scoped to hero-swiper) -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <!-- pagination (scoped) -->
+          <div class="swiper-pagination"></div>
         </div>
       </section>
 
       <!-- Hero content as its own section below the carousel -->
       <section class="relative mt-6 z-30 py-10 bg-white">
         <div class="max-w-4xl mx-auto px-4 text-center">
-          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">Fast, reliable mobile for everyone</h1>
-          <p class="mt-3 text-sm md:text-base text-gray-600">Flexible plans, premium coverage, and easy onboarding.</p>
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+            Fast, reliable mobile for everyone
+          </h1>
+          <p class="mt-3 text-sm md:text-base text-gray-600">
+            Flexible plans, premium coverage, and easy onboarding.
+          </p>
           <div class="mt-6 flex items-center justify-center gap-4">
-            <a href="#pricing" class="rounded-full bg-orange-500 hover:bg-orange-600 active:scale-[.98] text-white text-sm md:text-base font-semibold px-6 py-3 transition-transform">Get SIM</a>
-            <a href="#why" class="rounded-full border border-orange-200 text-orange-600 hover:bg-orange-50 active:scale-[.98] text-sm md:text-base font-semibold px-6 py-3 transition-transform">Why VibeFlow</a>
+            <a
+              href="#pricing"
+              class="rounded-full bg-orange-500 hover:bg-orange-600 active:scale-[.98] text-white text-sm md:text-base font-semibold px-6 py-3 transition-transform"
+              >Get SIM</a
+            >
+            <a
+              href="#why"
+              class="rounded-full border border-orange-200 text-orange-600 hover:bg-orange-50 active:scale-[.98] text-sm md:text-base font-semibold px-6 py-3 transition-transform"
+              >Why Cellcard</a
+            >
           </div>
         </div>
       </section>
@@ -173,84 +334,129 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-4">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- Card -->
-            <div class="bg-white min-h-[100px] md:min-h-[120px] flex items-center gap-4 rounded-xl px-4 shadow-sm hover:shadow-md transition-shadow">
-              <div class="bg-orange-500 w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+            <div
+              class="bg-white min-h-[100px] md:min-h-[120px] flex items-center gap-4 rounded-xl px-4 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div
+                class="bg-orange-500 w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
+              >
                 <i class="fa-solid fa-sim-card fa-lg text-white"></i>
               </div>
               <div>
                 <div class="text-base md:text-lg font-semibold">Get SIM</div>
-                <p class="text-xs md:text-sm text-gray-500">Order a new SIM or eSIM.</p>
+                <p class="text-xs md:text-sm text-gray-500">
+                  Order a new SIM or eSIM.
+                </p>
               </div>
             </div>
 
-            <div class="bg-white min-h-[100px] md:min-h-[120px] flex items-center gap-4 rounded-xl px-4 shadow-sm hover:shadow-md transition-shadow">
-              <div class="bg-orange-500 w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+            <div
+              class="bg-white min-h-[100px] md:min-h-[120px] flex items-center gap-4 rounded-xl px-4 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div
+                class="bg-orange-500 w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
+              >
                 <i class="fa-solid fa-wallet fa-lg text-white"></i>
               </div>
               <div>
                 <div class="text-base md:text-lg font-semibold">Top Up</div>
-                <p class="text-xs md:text-sm text-gray-500">Recharge your number in seconds.</p>
+                <p class="text-xs md:text-sm text-gray-500">
+                  Recharge your number in seconds.
+                </p>
               </div>
             </div>
 
-            <div class="bg-white min-h-[100px] md:min-h-[120px] flex items-center gap-4 rounded-xl px-4 shadow-sm hover:shadow-md transition-shadow">
-              <div class="bg-orange-500 w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+            <div
+              class="bg-white min-h-[100px] md:min-h-[120px] flex items-center gap-4 rounded-xl px-4 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div
+                class="bg-orange-500 w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
+              >
                 <i class="fa-solid fa-tags fa-lg text-white"></i>
               </div>
               <div>
                 <div class="text-base md:text-lg font-semibold">Promotions</div>
-                <p class="text-xs md:text-sm text-gray-500">Discover the latest deals and bundles.</p>
+                <p class="text-xs md:text-sm text-gray-500">
+                  Discover the latest deals and bundles.
+                </p>
               </div>
             </div>
 
-            <div class="bg-white min-h-[100px] md:min-h-[120px] flex items-center gap-4 rounded-xl px-4 shadow-sm hover:shadow-md transition-shadow">
-              <div class="bg-orange-500 w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+            <div
+              class="bg-white min-h-[100px] md:min-h-[120px] flex items-center gap-4 rounded-xl px-4 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div
+                class="bg-orange-500 w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
+              >
                 <i class="fa-solid fa-store fa-lg text-white"></i>
               </div>
               <div>
                 <div class="text-base md:text-lg font-semibold">Find Store</div>
-                <p class="text-xs md:text-sm text-gray-500">Locate the nearest service center.</p>
+                <p class="text-xs md:text-sm text-gray-500">
+                  Locate the nearest service center.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Why VibeFlow (Grid) -->
+      <!-- Why Cellcard (Grid) -->
       <section id="why" class="bg-white">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6">
-          <h2 class="text-2xl md:text-3xl font-bold text-center">Why VibeFlow</h2>
-          <p class="mt-2 text-center text-gray-600">Modern connectivity tailored to your lifestyle.</p>
-          <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-orange-500 text-white flex items-center justify-center"><i class="fa-solid fa-bolt"></i></div>
-              <h3 class="mt-4 font-semibold text-lg">Ultra-fast Data</h3>
-              <p class="mt-1 text-sm text-gray-600">Stream, game, and browse with low latency.</p>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-center">
+            Why Cellcard
+          </h2>
+          <p class="mt-3 text-center text-gray-600">
+            Modern connectivity tailored to your lifestyle.
+          </p>
+          <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-gray-50 rounded-2xl p-8 lg:p-10 shadow-md hover:shadow-xl hover:scale-105 transform transition-all duration-200">
+              <div class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center transition-transform duration-200">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+              <h3 class="mt-6 font-semibold text-xl">Ultra-fast Data</h3>
+              <p class="mt-2 text-sm text-gray-600">Stream, game, and browse with low latency.</p>
             </div>
-            <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-orange-500 text-white flex items-center justify-center"><i class="fa-solid fa-shield"></i></div>
-              <h3 class="mt-4 font-semibold text-lg">Trusted Coverage</h3>
-              <p class="mt-1 text-sm text-gray-600">Nationwide network backed by leading partners.</p>
+
+            <div class="bg-gray-50 rounded-2xl p-8 lg:p-10 shadow-md hover:shadow-xl hover:scale-105 transform transition-all duration-200">
+              <div class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center transition-transform duration-200">
+                <i class="fa-solid fa-shield"></i>
+              </div>
+              <h3 class="mt-6 font-semibold text-xl">Trusted Coverage</h3>
+              <p class="mt-2 text-sm text-gray-600">Nationwide network backed by leading partners.</p>
             </div>
-            <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-orange-500 text-white flex items-center justify-center"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-              <h3 class="mt-4 font-semibold text-lg">Digital Lifestyle</h3>
-              <p class="mt-1 text-sm text-gray-600">Bundles for music, video, and social apps.</p>
+
+            <div class="bg-gray-50 rounded-2xl p-8 lg:p-10 shadow-md hover:shadow-xl hover:scale-105 transform transition-all duration-200">
+              <div class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center transition-transform duration-200">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <h3 class="mt-6 font-semibold text-xl">Digital Lifestyle</h3>
+              <p class="mt-2 text-sm text-gray-600">Bundles for music, video, and social apps.</p>
             </div>
-            <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-orange-500 text-white flex items-center justify-center"><i class="fa-solid fa-globe"></i></div>
-              <h3 class="mt-4 font-semibold text-lg">Roaming Ready</h3>
-              <p class="mt-1 text-sm text-gray-600">Stay connected abroad with simple packs.</p>
+
+            <div class="bg-gray-50 rounded-2xl p-8 lg:p-10 shadow-md hover:shadow-xl hover:scale-105 transform transition-all duration-200">
+              <div class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center transition-transform duration-200">
+                <i class="fa-solid fa-globe"></i>
+              </div>
+              <h3 class="mt-6 font-semibold text-xl">Roaming Ready</h3>
+              <p class="mt-2 text-sm text-gray-600">Stay connected abroad with simple packs.</p>
             </div>
-            <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-orange-500 text-white flex items-center justify-center"><i class="fa-solid fa-wallet"></i></div>
-              <h3 class="mt-4 font-semibold text-lg">Flexible Pricing</h3>
-              <p class="mt-1 text-sm text-gray-600">Choose plans that fit your budget.</p>
+
+            <div class="bg-gray-50 rounded-2xl p-8 lg:p-10 shadow-md hover:shadow-xl hover:scale-105 transform transition-all duration-200">
+              <div class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center transition-transform duration-200">
+                <i class="fa-solid fa-wallet"></i>
+              </div>
+              <h3 class="mt-6 font-semibold text-xl">Flexible Pricing</h3>
+              <p class="mt-2 text-sm text-gray-600">Choose plans that fit your budget.</p>
             </div>
-            <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-orange-500 text-white flex items-center justify-center"><i class="fa-solid fa-headset"></i></div>
-              <h3 class="mt-4 font-semibold text-lg">24/7 Support</h3>
-              <p class="mt-1 text-sm text-gray-600">Friendly help whenever you need it.</p>
+
+            <div class="bg-gray-50 rounded-2xl p-8 lg:p-10 shadow-md hover:shadow-xl hover:scale-105 transform transition-all duration-200">
+              <div class="w-16 h-16 rounded-full bg-orange-500 text-white flex items-center justify-center transition-transform duration-200">
+                <i class="fa-solid fa-headset"></i>
+              </div>
+              <h3 class="mt-6 font-semibold text-xl">24/7 Support</h3>
+              <p class="mt-2 text-sm text-gray-600">Friendly help whenever you need it.</p>
             </div>
           </div>
         </div>
@@ -259,115 +465,211 @@
       <!-- Pricing (3 plans using Flexbox/Grid) -->
       <section id="pricing" class="bg-gray-100">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6">
-          <h2 class="text-2xl md:text-3xl font-bold text-center">Plans & Pricing</h2>
-          <p class="mt-2 text-center text-gray-600">Pick the plan that’s right for you.</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-center">
+            Plans & Pricing
+          </h2>
+          <p class="mt-2 text-center text-gray-600">
+            Pick the plan that’s right for you.
+          </p>
           <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Free -->
             <div class="bg-white rounded-2xl shadow-sm p-6 flex flex-col">
               <h3 class="text-lg font-semibold">Free</h3>
-              <p class="mt-1 text-sm text-gray-600">Starter access with limited data.</p>
+              <p class="mt-1 text-sm text-gray-600">
+                Starter access with limited data.
+              </p>
               <div class="mt-4 text-3xl font-bold">$0</div>
               <ul class="mt-4 space-y-2 text-sm text-gray-700">
-                <li><i class="fa-solid fa-check text-green-600 mr-2"></i>Basic speeds</li>
-                <li><i class="fa-solid fa-check text-green-600 mr-2"></i>100 MB/day</li>
-                <li><i class="fa-solid fa-check text-green-600 mr-2"></i>App support</li>
+                <li>
+                  <i class="fa-solid fa-check text-green-600 mr-2"></i>Basic
+                  speeds
+                </li>
+                <li>
+                  <i class="fa-solid fa-check text-green-600 mr-2"></i>100
+                  MB/day
+                </li>
+                <li>
+                  <i class="fa-solid fa-check text-green-600 mr-2"></i>App
+                  support
+                </li>
               </ul>
-              <a href="#" class="mt-6 rounded-full border border-orange-300 text-orange-600 hover:bg-orange-50 active:scale-[.98] px-5 py-2 text-sm font-semibold text-center transition-transform">Try Free</a>
+              <a
+                href="#"
+                class="mt-6 rounded-full border border-orange-300 text-orange-600 hover:bg-orange-50 active:scale-[.98] px-5 py-2 text-sm font-semibold text-center transition-transform"
+                >Try Free</a
+              >
             </div>
             <!-- Premium Individual -->
-            <div class="bg-orange-50 rounded-2xl shadow-md p-6 flex flex-col border border-orange-200">
-              <div class="inline-flex items-center gap-2 text-orange-700 text-xs font-semibold"><i class="fa-solid fa-star"></i> Popular</div>
+            <div
+              class="bg-orange-50 rounded-2xl shadow-md p-6 flex flex-col border border-orange-200"
+            >
+              <div
+                class="inline-flex items-center gap-2 text-orange-700 text-xs font-semibold"
+              >
+                <i class="fa-solid fa-star"></i> Popular
+              </div>
               <h3 class="text-lg font-semibold">Premium Individual</h3>
-              <p class="mt-1 text-sm text-gray-700">Full-speed data for one user.</p>
+              <p class="mt-1 text-sm text-gray-700">
+                Full-speed data for one user.
+              </p>
               <div class="mt-4 text-3xl font-bold">$12/mo</div>
               <ul class="mt-4 space-y-2 text-sm text-gray-700">
-                <li><i class="fa-solid fa-check text-green-600 mr-2"></i>Unlimited data*</li>
-                <li><i class="fa-solid fa-check text-green-600 mr-2"></i>5G ready</li>
-                <li><i class="fa-solid fa-check text-green-600 mr-2"></i>Roaming add-ons</li>
+                <li>
+                  <i class="fa-solid fa-check text-green-600 mr-2"></i>Unlimited
+                  data*
+                </li>
+                <li>
+                  <i class="fa-solid fa-check text-green-600 mr-2"></i>5G ready
+                </li>
+                <li>
+                  <i class="fa-solid fa-check text-green-600 mr-2"></i>Roaming
+                  add-ons
+                </li>
               </ul>
-              <a href="#" class="mt-6 rounded-full bg-orange-500 hover:bg-orange-600 active:scale-[.98] text-white px-5 py-2 text-sm font-semibold text-center transition-transform">Get Premium</a>
+              <a
+                href="#"
+                class="mt-6 rounded-full bg-orange-500 hover:bg-orange-600 active:scale-[.98] text-white px-5 py-2 text-sm font-semibold text-center transition-transform"
+                >Get Premium</a
+              >
             </div>
             <!-- Family -->
             <div class="bg-white rounded-2xl shadow-sm p-6 flex flex-col">
               <h3 class="text-lg font-semibold">Family</h3>
-              <p class="mt-1 text-sm text-gray-600">Shared data for up to 5 lines.</p>
+              <p class="mt-1 text-sm text-gray-600">
+                Shared data for up to 5 lines.
+              </p>
               <div class="mt-4 text-3xl font-bold">$25/mo</div>
               <ul class="mt-4 space-y-2 text-sm text-gray-700">
-                <li><i class="fa-solid fa-check text-green-600 mr-2"></i>Priority speeds</li>
-                <li><i class="fa-solid fa-check text-green-600 mr-2"></i>50 GB shared</li>
-                <li><i class="fa-solid fa-check text-green-600 mr-2"></i>Parental controls</li>
+                <li>
+                  <i class="fa-solid fa-check text-green-600 mr-2"></i>Priority
+                  speeds
+                </li>
+                <li>
+                  <i class="fa-solid fa-check text-green-600 mr-2"></i>50 GB
+                  shared
+                </li>
+                <li>
+                  <i class="fa-solid fa-check text-green-600 mr-2"></i>Parental
+                  controls
+                </li>
               </ul>
-              <a href="#" class="mt-6 rounded-full border border-orange-300 text-orange-600 hover:bg-orange-50 active:scale-[.98] px-5 py-2 text-sm font-semibold text-center transition-transform">Choose Family</a>
+              <a
+                href="#"
+                class="mt-6 rounded-full border border-orange-300 text-orange-600 hover:bg-orange-50 active:scale-[.98] px-5 py-2 text-sm font-semibold text-center transition-transform"
+                >Choose Family</a
+              >
             </div>
           </div>
-          <p class="mt-4 text-xs text-gray-500 text-center">*Fair use policy may apply.</p>
+          <p class="mt-4 text-xs text-gray-500 text-center">
+            *Fair use policy may apply.
+          </p>
         </div>
       </section>
 
       <!-- Testimonials (Swiper carousel) -->
       <section id="testimonials" class="bg-white">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-4">
-          <h2 class="text-2xl md:text-3xl font-bold text-center">What Our Users Say</h2>
+          <h2 class="text-2xl md:text-3xl font-bold text-center">
+            What Our Users Say
+          </h2>
           <div class="mt-4 swiper testimonial-swiper relative">
             <div class="swiper-wrapper">
               <div class="swiper-slide flex justify-center">
-                <div class="testimonial-card mx-auto w-full max-w-xs md:max-w-sm lg:max-w-md bg-gray-50 rounded-2xl p-6 shadow-sm">
+                <div
+                  class="testimonial-card mx-auto w-full max-w-xs md:max-w-sm lg:max-w-md bg-gray-50 rounded-2xl p-6 shadow-sm"
+                >
                   <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center">A</div>
+                    <div
+                      class="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center"
+                    >
+                      A
+                    </div>
                     <div>
                       <div class="font-semibold">Aditi</div>
                       <div class="text-xs text-gray-500">Student</div>
                     </div>
                   </div>
-                  <p class="mt-4 text-sm text-gray-700">Super easy to get started and speeds are great!</p>
+                  <p class="mt-4 text-sm text-gray-700">
+                    Super easy to get started and speeds are great!
+                  </p>
                 </div>
               </div>
               <div class="swiper-slide flex justify-center">
-                <div class="testimonial-card mx-auto w-full max-w-xs md:max-w-sm lg:max-w-md bg-gray-50 rounded-2xl p-6 shadow-sm">
+                <div
+                  class="testimonial-card mx-auto w-full max-w-xs md:max-w-sm lg:max-w-md bg-gray-50 rounded-2xl p-6 shadow-sm"
+                >
                   <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center">B</div>
+                    <div
+                      class="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center"
+                    >
+                      B
+                    </div>
                     <div>
                       <div class="font-semibold">Bora</div>
                       <div class="text-xs text-gray-500">Designer</div>
                     </div>
                   </div>
-                  <p class="mt-4 text-sm text-gray-700">Great coverage around the city and responsive support.</p>
+                  <p class="mt-4 text-sm text-gray-700">
+                    Great coverage around the city and responsive support.
+                  </p>
                 </div>
               </div>
               <div class="swiper-slide flex justify-center">
-                <div class="testimonial-card mx-auto w-full max-w-xs md:max-w-sm lg:max-w-md bg-gray-50 rounded-2xl p-6 shadow-sm">
+                <div
+                  class="testimonial-card mx-auto w-full max-w-xs md:max-w-sm lg:max-w-md bg-gray-50 rounded-2xl p-6 shadow-sm"
+                >
                   <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center">C</div>
+                    <div
+                      class="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center"
+                    >
+                      C
+                    </div>
                     <div>
                       <div class="font-semibold">Chenda</div>
                       <div class="text-xs text-gray-500">Entrepreneur</div>
                     </div>
                   </div>
-                  <p class="mt-4 text-sm text-gray-700">Family plan is perfect for us — good value.</p>
+                  <p class="mt-4 text-sm text-gray-700">
+                    Family plan is perfect for us — good value.
+                  </p>
                 </div>
               </div>
             </div>
             <div class="swiper-pagination"></div>
             <!-- Prev/Next controls for testimonials -->
-            <button class="testimonial-prev absolute top-1/2 left-3 -translate-y-1/2 bg-white rounded-full p-2 shadow-md text-gray-700 hover:bg-gray-50">
-              <i class="fa-solid fa-chevron-left"></i>
-            </button>
-            <button class="testimonial-next absolute top-1/2 right-3 -translate-y-1/2 bg-white rounded-full p-2 shadow-md text-gray-700 hover:bg-gray-50">
-              <i class="fa-solid fa-chevron-right"></i>
-            </button>
+              <button
+                type="button"
+                class="testimonial-prev absolute top-1/2 left-3 -translate-y-1/2 bg-white rounded-full p-3 shadow-md text-gray-700 hover:bg-gray-50 z-30"
+                onclick="window.testimonialSwiper && window.testimonialSwiper.slidePrev()"
+                aria-label="Previous testimonial"
+              >
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <button
+                type="button"
+                class="testimonial-next absolute top-1/2 right-3 -translate-y-1/2 bg-white rounded-full p-3 shadow-md text-gray-700 hover:bg-gray-50 z-30"
+                onclick="window.testimonialSwiper && window.testimonialSwiper.slideNext()"
+                aria-label="Next testimonial"
+              >
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
           </div>
         </div>
       </section>
 
       <!-- Footer -->
       <footer class="bg-gray-900 text-gray-200">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div
+          class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
           <div>
             <div class="flex items-center gap-2">
-              <img src="assets/images/logo.avif" alt="Logo" class="h-8"/>
-              <span class="text-orange-400 font-semibold">VibeFlow</span>
+              <img src="assets/images/logo.avif" alt="Logo" class="h-8" />
+              <!-- <span class="text-orange-400 font-semibold">Cellcard</span> -->
             </div>
-            <p class="mt-3 text-sm text-gray-400">Modern connectivity for everyone.</p>
+            <p class="mt-3 text-sm text-gray-400">
+              Modern connectivity for everyone.
+            </p>
           </div>
           <div>
             <h4 class="font-semibold mb-2">Links</h4>
@@ -375,24 +677,45 @@
               <li><a href="#hero" class="hover:text-white">Home</a></li>
               <li><a href="#why" class="hover:text-white">Why</a></li>
               <li><a href="#pricing" class="hover:text-white">Pricing</a></li>
-              <li><a href="#testimonials" class="hover:text-white">Testimonials</a></li>
+              <li>
+                <a href="#testimonials" class="hover:text-white"
+                  >Testimonials</a
+                >
+              </li>
             </ul>
           </div>
           <div>
             <h4 class="font-semibold mb-2">Follow</h4>
             <div class="flex items-center gap-3 text-xl">
-              <a href="#" aria-label="Facebook" class="hover:text-white"><i class="fa-brands fa-facebook"></i></a>
-              <a href="#" aria-label="Twitter" class="hover:text-white"><i class="fa-brands fa-x-twitter"></i></a>
-              <a href="#" aria-label="Instagram" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" aria-label="Facebook" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-transparent text-white/90 hover:bg-[#1877F2] hover:text-white transform transition-all duration-150 hover:scale-110 hover:shadow-lg">
+                <i class="fa-brands fa-facebook"></i>
+              </a>
+              <a href="#" aria-label="X" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-transparent text-white/90 hover:bg-white hover:text-black transform transition-all duration-150 hover:scale-110 hover:shadow-lg">
+                <i class="fa-brands fa-x-twitter"></i>
+              </a>
+              <a href="#" aria-label="Instagram" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-transparent text-white/90 hover:bg-gradient-to-tr hover:from-[#feda75] hover:via-[#f58529] hover:to-[#d6249f] hover:text-white transform transition-all duration-150 hover:scale-110 hover:shadow-lg">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
             </div>
           </div>
           <div>
             <h4 class="font-semibold mb-2">Subscribe</h4>
             <form class="flex gap-2">
-              <input type="email" placeholder="Email address" class="flex-1 rounded-lg px-3 py-2 text-sm text-gray-900" />
-              <button type="submit" class="rounded-lg bg-orange-500 hover:bg-orange-600 active:scale-[.98] px-4 py-2 text-sm text-white transition-transform">Join</button>
+              <input
+                type="email"
+                placeholder="Email address"
+                class="flex-1 rounded-lg px-3 py-2 text-sm text-gray-900"
+              />
+              <button
+                type="submit"
+                class="rounded-lg bg-orange-500 hover:bg-orange-600 active:scale-[.98] px-4 py-2 text-sm text-white transition-transform"
+              >
+                Join
+              </button>
             </form>
-            <p class="mt-3 text-xs text-gray-500">Images via Unsplash/Pexels. © 2025.</p>
+            <p class="mt-3 text-xs text-gray-500">
+              Images via Unsplash/Pexels. © 2025.
+            </p>
           </div>
         </div>
       </footer>
@@ -400,77 +723,145 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener("DOMContentLoaded", function () {
         // Hero swiper (scoped)
-        const heroSwiper = new Swiper('.hero-swiper', {
+        const heroSwiper = new Swiper(".hero-swiper", {
           loop: true,
           autoplay: { delay: 4000, disableOnInteraction: false },
-          pagination: { el: '.hero-swiper .swiper-pagination', clickable: true },
-          navigation: { nextEl: '.hero-swiper .swiper-button-next', prevEl: '.hero-swiper .swiper-button-prev' },
+          pagination: {
+            el: ".hero-swiper .swiper-pagination",
+            clickable: true,
+          },
+          navigation: {
+            nextEl: ".hero-swiper .swiper-button-next",
+            prevEl: ".hero-swiper .swiper-button-prev",
+          },
         });
 
-        const testimonialSwiper = new Swiper('.testimonial-swiper', {
+        window.testimonialSwiper = new Swiper(".testimonial-swiper", {
           loop: true,
           autoplay: { delay: 5000, disableOnInteraction: false },
-          pagination: { el: '.testimonial-swiper .swiper-pagination', clickable: true },
-          navigation: { nextEl: '.testimonial-next', prevEl: '.testimonial-prev' },
+          pagination: {
+            el: ".testimonial-swiper .swiper-pagination",
+            clickable: true,
+          },
+          navigation: {
+            nextEl: ".testimonial-next",
+            prevEl: ".testimonial-prev",
+          },
           slidesPerView: 1,
           spaceBetween: 24,
           centeredSlides: false,
-          breakpoints: { 640: { slidesPerView: 1 }, 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
+          breakpoints: {
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          },
         });
 
         // Mobile menu toggle
-        const navToggle = document.getElementById('navToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        navToggle?.addEventListener('click', () => {
-          mobileMenu.classList.toggle('hidden');
+        const navToggle = document.getElementById("navToggle");
+        const mobileMenu = document.getElementById("mobileMenu");
+        const _langBar = document.getElementById("langBar");
+        navToggle?.addEventListener("click", () => {
+          mobileMenu.classList.toggle("hidden");
+          // hide desktop langBar while mobile menu is open
+          const menuOpen = !mobileMenu.classList.contains("hidden");
+          if (_langBar) _langBar.classList.toggle("hidden", menuOpen);
+        });
+
+        // Ensure langBar visibility on resize: show on md+ (>=768), hide on smaller
+        window.addEventListener('resize', () => {
+          if (!_langBar) return;
+          if (window.innerWidth >= 768) {
+            _langBar.classList.remove('hidden');
+          } else {
+            _langBar.classList.add('hidden');
+          }
+        });
+
+        // Mobile submenu toggles (for collapsible items)
+        document.querySelectorAll('.mobile-submenu-toggle').forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            const parent = btn.parentElement;
+            const submenu = parent.querySelector('.mobile-submenu');
+            const chevron = btn.querySelector('i');
+            if (!submenu) return;
+            const isHidden = submenu.classList.contains('hidden');
+            if (isHidden) {
+              submenu.classList.remove('hidden');
+              btn.setAttribute('aria-expanded', 'true');
+              chevron.classList.add('rotate-180');
+            } else {
+              submenu.classList.add('hidden');
+              btn.setAttribute('aria-expanded', 'false');
+              chevron.classList.remove('rotate-180');
+            }
+          });
         });
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach((link) => {
-          link.addEventListener('click', (e) => {
-            const targetId = link.getAttribute('href');
-            if (!targetId || targetId === '#') return;
+          link.addEventListener("click", (e) => {
+            const targetId = link.getAttribute("href");
+            if (!targetId || targetId === "#") return;
             const target = document.querySelector(targetId);
             if (target) {
               e.preventDefault();
-              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
             }
           });
         });
 
         // Hide language bar after scrolling down
-        const langBar = document.getElementById('langBar');
+        const langBar = document.getElementById("langBar");
         const updateLangBar = () => {
           const scrolled = window.scrollY > 60;
-          langBar.classList.toggle('hidden', scrolled);
+          langBar.classList.toggle("hidden", scrolled);
         };
         updateLangBar();
-        window.addEventListener('scroll', updateLangBar);
+        window.addEventListener("scroll", updateLangBar);
 
         // Active section highlight in navbar
-        const sections = ['#hero', '#why', '#pricing', '#testimonials'];
-        const navLinks = Array.from(document.querySelectorAll('a[href^="#"]'))
-          .filter(a => sections.includes(a.getAttribute('href')));
+        const sections = ["#hero", "#why", "#pricing", "#testimonials"];
+        const navLinks = Array.from(
+          document.querySelectorAll('a[href^="#"]')
+        ).filter((a) => sections.includes(a.getAttribute("href")));
         const setActive = (id) => {
-          navLinks.forEach(a => {
-            const isActive = a.getAttribute('href') === id;
-            a.classList.toggle('text-orange-600', isActive);
-            a.classList.toggle('font-semibold', isActive);
+          navLinks.forEach((a) => {
+            const isActive = a.getAttribute("href") === id;
+            a.classList.toggle("text-orange-600", isActive);
+            a.classList.toggle("font-semibold", isActive);
           });
         };
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              setActive('#' + entry.target.id);
-            }
-          });
-        }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.01 });
-        sections.forEach(id => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                setActive("#" + entry.target.id);
+              }
+            });
+          },
+          { rootMargin: "-40% 0px -55% 0px", threshold: 0.01 }
+        );
+        sections.forEach((id) => {
           const el = document.querySelector(id);
           if (el) observer.observe(el);
         });
+
+        // Ensure testimonial prev/next work on all viewports (fallback)
+        const tPrevBtn = document.querySelector(".testimonial-prev");
+        const tNextBtn = document.querySelector(".testimonial-next");
+        if (tPrevBtn && tNextBtn && window.testimonialSwiper) {
+          tPrevBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.testimonialSwiper.slidePrev();
+          });
+          tNextBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.testimonialSwiper.slideNext();
+          });
+        }
       });
     </script>
   </body>
